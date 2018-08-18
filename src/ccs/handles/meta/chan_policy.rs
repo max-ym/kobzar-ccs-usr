@@ -1,3 +1,13 @@
+macro_rules! unwrap {
+    ($self: ident, $name: ident) => {
+        let $name = if let Some(v) = $self.$name {
+            v
+        } else {
+            return Err($self);
+        };
+    }
+}
+
 /// Channel policy that defines the operations handles can apply.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Policy {
@@ -11,6 +21,10 @@ pub struct Policy {
 
     /// Whether to allow to join by handle without invitation.
     join_by_handle: bool,
+
+    /// Whether allowed to have multiple thread connected to this channel.
+    /// If forbider, only single peer-to-peer is allowed.
+    no_multiple_connectons: bool,
 }
 
 /// Struct that simplifies building the policy.
@@ -19,6 +33,7 @@ pub struct PolicyBuilder {
     invitation_from_not_member: Option<bool>,
     origin_can_leave: Option<bool>,
     join_by_handle: Option<bool>,
+    no_multiple_connectons: Option<bool>,
 }
 
 impl PolicyBuilder {
@@ -45,29 +60,16 @@ impl PolicyBuilder {
     /// in error message. If everything goes well then policy instance
     /// will be returned instead.
     pub fn build(self) -> Result<Policy, Self> {
-        let invitation_from_not_member
-                = if let Some(v) = self.invitation_from_not_member {
-            v
-        } else {
-            return Err(self);
-        };
-
-        let origin_can_leave = if let Some(v) = self.origin_can_leave {
-            v
-        } else {
-            return Err(self);
-        };
-
-        let join_by_handle = if let Some(v) = self.join_by_handle {
-            v
-        } else {
-            return Err(self);
-        };
+        unwrap!(self, invitation_from_not_member);
+        unwrap!(self, origin_can_leave);
+        unwrap!(self, join_by_handle);
+        unwrap!(self, no_multiple_connectons);
 
         Ok(Policy {
             invitation_from_not_member,
             origin_can_leave,
             join_by_handle,
+            no_multiple_connectons,
         })
     }
 }
