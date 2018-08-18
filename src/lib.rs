@@ -22,7 +22,7 @@ pub mod ccs {
         fn local_network(&self) -> Network;
 
         /// Object where current thread is located.
-        fn myself() -> Object;
+        fn myself() -> Self;
     }
 
     /// Service of some object. All service structs derive this trait.
@@ -35,17 +35,17 @@ pub mod ccs {
         fn object(&self) -> Object;
 
         /// Service where current thread started.
-        fn myself() -> Service;
+        fn myself() -> Self;
     }
 
     /// Channel established to transmit information among services.
     pub trait Channel {
 
         /// The services connected to the channel.
-        fn connected_services(&self) -> Iterator<Item = Service>;
+        fn connected_services(&self) -> Iterator<Item = &Service>;
 
         /// Create new channel with this service involved.
-        fn new() -> Option<Channel>;
+        fn new() -> Option<Self>;
     }
 
     pub trait Network {
@@ -55,7 +55,7 @@ pub mod ccs {
 
         /// Iterator over objects that can be accessed by active service.
         /// Objects are searched by their names.
-        fn object_by_name(name: &str) -> Iterator<Item = Object>;
+        fn object_by_name(name: &str) -> Iterator<Item = &Object>;
     }
 
     /// Interface with some set of functions to be implemented.
