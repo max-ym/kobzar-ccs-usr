@@ -19,6 +19,12 @@ pub struct Object {
 
 /// Architecture-dependent object implementation.
 pub trait ObjectArchitecture {
+
+    /// Service iterator over all accessible for this thread local services.
+    fn services(&self) -> ServiceIterator;
+
+    /// Object iterator over all accessible for current subobject.
+    fn objects(&self) -> ObjectIterator;
 }
 
 impl Object {
