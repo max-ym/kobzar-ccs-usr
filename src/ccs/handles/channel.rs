@@ -55,6 +55,9 @@ pub trait ChannelImplementer {
 
     /// Channel current policy.
     fn policy(&self) -> meta::Policy;
+
+    /// The handle for this channel.
+    fn handle(&self) -> &Channel;
 }
 
 impl Channel {
