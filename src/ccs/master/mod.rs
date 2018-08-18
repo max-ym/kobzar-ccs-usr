@@ -2,49 +2,11 @@
 
 use std::rc::Rc;
 
+use super::*;
 use super::meta;
 
-/// Source of interfaces. When some interface is requested Master
-/// uses it's interface sources to find required interface.
-pub trait InterfaceSource {
+mod interface_source;
+pub use self::interface_source::*;
 
-    /// Try to find interfaces that apply to the requirements.
-    fn lookup(&mut self, requirements: InterfaceRequirements)
-            -> meta::InterfaceSet;
-}
-
-/// Source of interface implementers. When some implementation is required
-/// Master uses these sources to load object that implements the interfaces.
-pub trait ImplementerSource {
-    fn lookup(&mut self, requirements: ImplementerRequirements)
-            -> meta::ObjectSet;
-}
-
-/// Rule which interface version must be loaded.
-pub enum VersionRule {
-
-    /// Interface with exact version.
-    Equal(meta::Version),
-
-    /// Interface version newer or equal to the version provided.
-    /// Note that this applies only to interface versions with
-    /// equal major versions. Unequal majors discards the interfaces.
-    NewerOrEqual(meta::Version),
-}
-
-/// Requirements to the interface that must be obeyed.
-pub struct InterfaceRequirements {
-
-    /// Vendor and name of the interface.
-    vendor: meta::Path,
-
-    /// Version rules.
-    version: VersionRule,
-}
-
-/// Requirements to the interface that must be obeyed.
-pub struct ImplementerRequirements {
-
-    /// Interfaces that must be implemented by the object.
-    interfaces: Rc<meta::InterfaceSet>,
-}
+mod implementer_source;
+pub use self::implementer_source::*;
