@@ -1,5 +1,7 @@
 //! Master module that allows allocating new channels, services and objects.
 
+use std::rc::Rc;
+
 use super::handles::meta;
 use super::handles;
 
@@ -15,7 +17,8 @@ pub trait InterfaceSource {
 /// Source of interface implementers. When some implementation is required
 /// Master uses these sources to load object that implements the interfaces.
 pub trait ImplementerSource {
-    // TODO
+    fn lookup(&mut self, requirements: ImplementerRequirements)
+            -> handles::ObjectSet;
 }
 
 /// Rule which interface version must be loaded.
@@ -38,4 +41,11 @@ pub struct InterfaceRequirements {
 
     /// Version rules.
     version: VersionRule,
+}
+
+/// Requirements to the interface that must be obeyed.
+pub struct ImplementerRequirements {
+
+    /// Interfaces that must be implemented by the object.
+    interfaces: Rc<handles::InterfaceSet>,
 }
