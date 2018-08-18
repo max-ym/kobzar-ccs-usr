@@ -9,4 +9,6 @@ pub mod ccs {
     pub mod master;
 
     pub mod local;
+
+    pub mod tools;
 }
