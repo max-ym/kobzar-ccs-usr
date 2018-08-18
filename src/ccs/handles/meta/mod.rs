@@ -7,3 +7,7 @@ pub use self::version::*;
 /// Declaration and implementation for Path struct.
 mod path;
 pub use self::path::*;
+
+/// Policy of channel.
+mod chan_policy;
+pub use self::chan_policy::*;
