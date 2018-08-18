@@ -4,8 +4,6 @@
 mod version;
 use self::version::*;
 
-
-pub struct Path {
-
-    // TODO
-}
+/// Declaration and implementation for Path struct.
+mod path;
+use self::path::*;
