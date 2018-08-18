@@ -37,7 +37,7 @@ pub enum ChannelError {
 pub type ChannelResult<T> = Result<T, ChannelError>;
 
 /// Architecture-dependent part of Channel.
-pub trait ChanneArchitecture {
+pub trait ChannelArchitecture {
 
     /// Leave this channel. Service which called this fn leaves the channel
     /// but still has a handle to it and can retrieve information
