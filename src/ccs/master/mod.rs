@@ -2,8 +2,7 @@
 
 use std::rc::Rc;
 
-use super::handles::meta;
-use super::handles;
+use super::meta;
 
 /// Source of interfaces. When some interface is requested Master
 /// uses it's interface sources to find required interface.
@@ -11,14 +10,14 @@ pub trait InterfaceSource {
 
     /// Try to find interfaces that apply to the requirements.
     fn lookup(&mut self, requirements: InterfaceRequirements)
-            -> handles::InterfaceSet;
+            -> meta::InterfaceSet;
 }
 
 /// Source of interface implementers. When some implementation is required
 /// Master uses these sources to load object that implements the interfaces.
 pub trait ImplementerSource {
     fn lookup(&mut self, requirements: ImplementerRequirements)
-            -> handles::ObjectSet;
+            -> meta::ObjectSet;
 }
 
 /// Rule which interface version must be loaded.
@@ -47,5 +46,5 @@ pub struct InterfaceRequirements {
 pub struct ImplementerRequirements {
 
     /// Interfaces that must be implemented by the object.
-    interfaces: Rc<handles::InterfaceSet>,
+    interfaces: Rc<meta::InterfaceSet>,
 }

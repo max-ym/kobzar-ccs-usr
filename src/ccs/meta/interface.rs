@@ -7,10 +7,10 @@ use std::collections::BTreeSet;
 pub struct Interface {
 
     /// Vendor of this interface.
-    vendor_path: Rc<meta::Path>,
+    vendor_path: Rc<Path>,
 
     /// Version of this interface.
-    version: meta::Version,
+    version: Version,
 
     /// Set of service names this interface requires to be implemented.
     services: BTreeSet<String>,
@@ -23,12 +23,12 @@ pub struct Interface {
 impl Interface {
 
     /// Vendor of this interface.
-    pub fn vendor(&self) -> &meta::Path {
+    pub fn vendor(&self) -> &Path {
         self.vendor_path.as_ref()
     }
 
     /// Version of this interface definition.
-    pub fn version(&self) -> &meta::Version {
+    pub fn version(&self) -> &Version {
         &self.version
     }
 

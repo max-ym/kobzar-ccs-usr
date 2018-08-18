@@ -3,8 +3,8 @@
 /// direct information.
 pub mod ccs {
 
-    pub mod handles;
-    pub use self::handles::*;
+    pub mod meta;
+    pub use self::meta::*;
 
     pub mod master;
 }

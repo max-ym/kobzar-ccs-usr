@@ -11,7 +11,7 @@ pub struct Object {
     /// They can be distinguished by ID which always is unique among the
     /// local network. The last node of the path is the name of this
     /// object.
-    path: Rc<meta::Path>,
+    path: Rc<Path>,
 
     /// Object ID in some network.
     id: usize,
@@ -36,7 +36,7 @@ pub trait ObjectArchitecture {
 impl Object {
 
     /// Object full path including the name of this object.
-    pub fn path(&self) -> &meta::Path {
+    pub fn path(&self) -> &Path {
         self.path.as_ref()
     }
 

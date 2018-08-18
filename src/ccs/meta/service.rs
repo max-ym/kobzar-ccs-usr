@@ -11,7 +11,7 @@ pub struct Service {
 
     /// Path to this service. Should extend the path of origin object.
     /// This is a hard error not to extend the object path.
-    path: Rc<meta::Path>,
+    path: Rc<Path>,
 
     /// ID that definitely identifies the service. This ID is guaranteed to
     /// be unique in the map of services of local network.
@@ -58,7 +58,7 @@ impl Service {
     }
 
     /// Path to this service.
-    pub fn path(&self) -> &meta::Path {
+    pub fn path(&self) -> &Path {
         self.path.as_ref()
     }
 }

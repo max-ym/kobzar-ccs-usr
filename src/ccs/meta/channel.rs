@@ -58,7 +58,7 @@ pub trait ChannelArchitecture {
     fn connections_count(&self) -> usize;
 
     /// Channel current policy.
-    fn policy(&self) -> meta::Policy;
+    fn policy(&self) -> Policy;
 
     /// The handle for this channel.
     fn handle(&self) -> &Channel;
