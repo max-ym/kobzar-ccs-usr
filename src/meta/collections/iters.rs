@@ -1,4 +1,5 @@
 use super::*;
+use std::rc::Rc;
 
 /// Iterator over Object handles.
 #[derive(Clone)]
@@ -30,6 +31,13 @@ pub struct ChannelIterator {
 
     /// Current iterator index.
     i: usize,
+}
+
+/// Iterator over [path nodes](some.html).
+pub struct PathNodeIterator {
+
+    /// Last node of the path.
+    last: Rc<Path>,
 }
 
 impl Iterator for ObjectIterator {
@@ -98,5 +106,29 @@ impl ExactSizeIterator for ChannelIterator {
 
     fn len(&self) -> usize {
         self.vec.len()
+    }
+}
+
+impl PathNodeIterator {
+
+    pub fn new(node: Rc<Path>) -> Self {
+        PathNodeIterator {
+            last: node,
+        }
+    }
+}
+
+impl Iterator for PathNodeIterator {
+
+    type Item = Rc<Path>;
+
+    fn next(&mut self) -> Option<Rc<Path>> {
+        // Get Rc of current node.
+        let rc = self.last.clone();
+
+        // Move to previous node.
+        self.last = self.last.parent().clone();
+
+        Some(rc)
     }
 }

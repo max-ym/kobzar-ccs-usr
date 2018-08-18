@@ -1,3 +1,4 @@
+use super::PathNodeIterator;
 use std::collections::BTreeMap;
 use std::cmp::Ordering;
 use std::rc::{Rc, Weak};
@@ -195,5 +196,80 @@ impl Path {
     /// This node name.
     pub fn name(&self) -> &str {
         self.name.as_ref()
+    }
+
+    /// Parent node for current node.
+    pub fn parent(&self) -> &Rc<Path> {
+        &self.parent
+    }
+
+    /// Iterator over path nodes starting from current node.
+    pub fn iter(&self) -> PathNodeIterator {
+        PathNodeIterator::new(self.selfref.clone().upgrade().unwrap())
+    }
+}
+
+impl PartialEq for Path {
+
+    fn eq(&self, other: &Path) -> bool {
+        // Check names.
+        if self.name != other.name {
+            return false;
+        }
+
+        // Check parents.
+        if self.parent != other.parent {
+            return false;
+        }
+
+        // Check paths.
+        let mut selfiter = self.iter();
+        let mut otheriter = other.iter();
+        loop {
+            let selfnext = selfiter.next();
+            let othernext = otheriter.next();
+
+            // Check whether iterator finished.
+            if selfnext.is_none() {
+                // Whether other iterator finished too.
+                if othernext.is_none() {
+                    // Path nodes are equal.
+                    break;
+                } else {
+                    // Other iterator still have nodes so
+                    // the paths are not equal.
+                    return false;
+                }
+            }
+
+            // Whether current values are equal.
+            if selfnext.unwrap() != othernext.unwrap() {
+                return false;
+            }
+        }
+
+        // Check children.
+        if self.children == other.children {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+impl Eq for Path {}
+
+impl PartialOrd for Path {
+
+    fn partial_cmp(&self, other: &Path) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for Path {
+
+    fn cmp(&self, other: &Path) -> Ordering {
+        let mut iter = self.iter();
+        unimplemented!()
     }
 }

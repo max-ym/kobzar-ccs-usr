@@ -1,6 +1,7 @@
 use super::*;
 use std::rc::Rc;
 use std::collections::BTreeSet;
+use std::cmp::Ordering;
 
 /// Interface defines some service that must be implemented by the
 /// object to support some group of functionality.
@@ -42,5 +43,63 @@ impl Interface {
     /// implement this interface.
     pub fn dependencies(&self) -> &BTreeSet<Rc<Interface>> {
         &self.dependencies
+    }
+}
+
+impl PartialEq for Interface {
+
+    fn eq(&self, other: &Interface) -> bool {
+        // Check versions first - its a quick check.
+        if self.version() != other.version() {
+            return false;
+        }
+
+        // Check paths.
+        if self.vendor() != other.vendor() {
+            return false;
+        }
+
+        // Check dependencies.
+        if self.dependencies() != other.dependencies() {
+            return false;
+        }
+
+        // Check services.
+        if self.services() == other.services() {
+            return false;
+        }
+
+        true
+    }
+}
+
+impl Eq for Interface {}
+
+impl PartialOrd for Interface {
+
+    fn partial_cmp(&self, other: &Interface) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for Interface {
+
+    fn cmp(&self, other: &Interface) -> Ordering {
+        use self::Ordering::*;
+
+        // Compare vendor paths.
+        let vendor_cmp = self.vendor().cmp(other.vendor());
+        if vendor_cmp != Equal {
+            return vendor_cmp;
+        }
+
+        // Compare versions.
+        let version_cmp = self.version().cmp(other.version());
+        if version_cmp != Equal {
+            return version_cmp;
+        }
+
+        // All other things don't matter.
+        Equal
     }
 }
