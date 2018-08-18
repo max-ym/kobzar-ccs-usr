@@ -20,3 +20,6 @@ pub use self::channel::*;
 /// All threading structs and functions.
 mod thread;
 pub use self::thread::*;
+
+mod interface;
+pub use self::interface::*;
