@@ -2,8 +2,8 @@
 
 /// Implementation and declaration for Version struct.
 mod version;
-use self::version::*;
+pub use self::version::*;
 
 /// Declaration and implementation for Path struct.
 mod path;
-use self::path::*;
+pub use self::path::*;
