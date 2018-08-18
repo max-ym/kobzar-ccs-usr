@@ -21,10 +21,16 @@ pub struct Object {
 pub trait ObjectArchitecture {
 
     /// Service iterator over all accessible for this thread local services.
-    fn services(&self) -> ServiceIterator;
+    fn service_iter(&self) -> ServiceIterator;
 
     /// Object iterator over all accessible for current subobject.
-    fn objects(&self) -> ObjectIterator;
+    fn object_iter(&self) -> ObjectIterator;
+
+    /// Set of services accessible for current thread.
+    fn services(&self) -> ServiceSet;
+
+    /// Set of objects accessible for current thread.
+    fn objects(&self) -> ObjectSet;
 }
 
 impl Object {
