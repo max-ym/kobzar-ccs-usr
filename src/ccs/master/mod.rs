@@ -15,15 +15,19 @@ pub use self::implementer_source::*;
 /// of CCS.
 pub trait Master {
 
+    type IntSrc: InterfaceSource;
+
+    type ImpSrc: ImplementerSource;
+
     /// Add interface source to this master. If it is already added
     /// then nothing is done. The reference to interface source
     /// that was passed gets returned.
-    fn add_interface_source(&mut self, isrc: InterfaceSource)
-            -> &InterfaceSource;
+    fn add_interface_source(&mut self, isrc: Self::IntSrc)
+            -> &Self::IntSrc;
 
     /// Add implementer source to this master. If it is already added
     /// then nothing is done. The reference to implementer source
     /// that was passed gets returned.
-    fn add_implementer_source(&mut self, isrc: ImplementerSource)
-            -> &ImplementerSource;
+    fn add_implementer_source(&mut self, isrc: Self::ImpSrc)
+            -> &Self::ImpSrc;
 }
