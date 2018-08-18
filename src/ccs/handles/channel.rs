@@ -28,6 +28,10 @@ pub enum ChannelError {
     /// Cannot join the channel because this operation is
     /// forbiden for current service.
     JoinForbiden,
+
+    /// Multiple connections to the channel are forbiden. Only
+    /// peer-to-peer single connections are allowed.
+    MultipleConnectionsForbiden,
 }
 
 pub type ChannelResult<T> = Result<T, ChannelError>;
