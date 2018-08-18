@@ -4,8 +4,11 @@ use super::meta;
 /// Source of interface implementers. When some implementation is required
 /// Master uses these sources to load object that implements the interfaces.
 pub trait ImplementerSource {
+
+    type O: meta::ObjectArchitecture;
+
     fn lookup(&mut self, requirements: ImplementerRequirements)
-            -> meta::ObjectSet;
+            -> meta::ObjectArchSet<Self::O>;
 }
 
 
