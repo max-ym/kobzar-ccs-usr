@@ -2,8 +2,8 @@
 
 pub mod meta;
 
-pub mod iters;
-pub use self::iters::*;
+pub mod collections;
+pub use self::collections::*;
 
 /// Contains Object and its implementation.
 mod object;

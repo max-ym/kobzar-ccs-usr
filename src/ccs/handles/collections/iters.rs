@@ -1,5 +1,3 @@
-//! Iterators for different types of handles and metadata.
-
 use super::*;
 
 /// Iterator over Object handles.
