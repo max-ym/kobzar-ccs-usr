@@ -17,6 +17,10 @@ pub struct Object {
     id: usize,
 }
 
+/// Architecture-dependent object implementation.
+pub trait ObjectArchitecture {
+}
+
 impl Object {
 
     /// Object full path including the name of this object.
