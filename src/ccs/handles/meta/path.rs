@@ -191,4 +191,9 @@ impl Path {
 
         Some(rc)
     }
+
+    /// This node name.
+    pub fn name(&self) -> &str {
+        self.name.as_ref()
+    }
 }
