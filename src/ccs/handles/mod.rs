@@ -16,3 +16,7 @@ pub use self::service::*;
 /// Contains Channel, its related structures and implementations.
 mod channel;
 pub use self::channel::*;
+
+/// All threading structs and functions.
+mod thread;
+pub use self::thread::*;

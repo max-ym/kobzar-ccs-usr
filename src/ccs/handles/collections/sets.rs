@@ -1,0 +1,8 @@
+use super::*;
+use std::collections::BTreeSet;
+
+pub type ChannelSet = BTreeSet<Channel>;
+
+pub type ServiceSet = BTreeSet<Service>;
+
+pub type ObjectSet = BTreeSet<Object>;
