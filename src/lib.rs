@@ -7,4 +7,6 @@ pub mod ccs {
     pub use self::meta::*;
 
     pub mod master;
+
+    pub mod local;
 }
