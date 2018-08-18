@@ -6,3 +6,5 @@ pub type ChannelSet = BTreeSet<Channel>;
 pub type ServiceSet = BTreeSet<Service>;
 
 pub type ObjectSet = BTreeSet<Object>;
+
+pub type InterfaceSet = BTreeSet<Interface>;
