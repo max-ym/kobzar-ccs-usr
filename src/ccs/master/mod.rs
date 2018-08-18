@@ -16,10 +16,14 @@ pub use self::implementer_source::*;
 pub trait Master {
 
     /// Add interface source to this master. If it is already added
-    /// then nothing is done.
-    fn add_interface_source(&mut self, isrc: InterfaceSource);
+    /// then nothing is done. The reference to interface source
+    /// that was passed gets returned.
+    fn add_interface_source(&mut self, isrc: InterfaceSource)
+            -> &InterfaceSource;
 
     /// Add implementer source to this master. If it is already added
-    /// then nothing is done.
-    fn add_implementer_source(&mut self, isrc: ImplementerSource);
+    /// then nothing is done. The reference to implementer source
+    /// that was passed gets returned.
+    fn add_implementer_source(&mut self, isrc: ImplementerSource)
+            -> &ImplementerSource;
 }
