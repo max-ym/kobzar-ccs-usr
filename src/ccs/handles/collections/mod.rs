@@ -7,5 +7,6 @@ use super::*;
 mod iters;
 pub use self::iters::*;
 
+/// Sets of handles.
 mod sets;
 pub use self::sets::*;
