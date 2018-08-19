@@ -29,7 +29,7 @@ pub struct Path {
 
     /// Parent node if any. Root node never has a parent. All
     /// other nodes are initialized with some parent node.
-    parent: Rc<Path>,
+    parent: Option<Rc<Path>>,
 
     /// Self weak reference. Used to pass self reference to children.
     selfref: Weak<Path>,
@@ -155,10 +155,33 @@ impl Ord for WeakName {
 
 impl Path {
 
+    /// Create node with name only. No parent nor children.
+    pub fn new(name: &str) -> Option<Rc<Path>> {
+        let name = Name::try_new(name);
+        if name.is_none() {
+            return None;
+        }
+        let name = name.unwrap();
+
+        let mut path = Path {
+            name,
+            parent: None,
+            selfref: Weak::new(),
+            children: Default::default(),
+        };
+
+        let rc = Rc::new(path);
+        path.selfref = Rc::downgrade(&rc);
+        Some(rc)
+    }
+
     /// Try creating new Path with given name. This node is treated
     /// as path's parent. The passed name is validated and in case
     /// it is invalid None will be returned. Otherwise, the path is
     /// returned and node is registered as child in current one.
+    /// The created node is root (no parent). If this node
+    /// isn't root, specify parent using
+    /// [try_new_with_parent](#method.try_new_with_parent).
     pub fn try_new(&mut self, name: &str) -> Option<Rc<Path>> {
         use std::str::FromStr;
 
@@ -172,7 +195,7 @@ impl Path {
 
         let path = Path {
             name: name,
-            parent: self.selfref.upgrade().unwrap(),
+            parent: self.selfref.upgrade(),
 
             // Currently nothing to assign. Will have
             // valid value soon.
@@ -199,7 +222,7 @@ impl Path {
     }
 
     /// Parent node for current node.
-    pub fn parent(&self) -> &Rc<Path> {
+    pub fn parent(&self) -> &Option<Rc<Path>> {
         &self.parent
     }
 
@@ -271,5 +294,35 @@ impl Ord for Path {
     fn cmp(&self, other: &Path) -> Ordering {
         let mut iter = self.iter();
         unimplemented!()
+    }
+}
+
+#[cfg(test)]
+mod test {
+
+    use super::*;
+
+    #[test]
+    fn name_validation0() {
+        let result = Name::try_new("Hello");
+        result.unwrap();
+    }
+
+    #[test]
+    fn name_validation1() {
+        let result = Name::try_new("1hello");
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn name_validation2() {
+        let result = Name::try_new("_underscore_test");
+        result.unwrap();
+    }
+
+    #[test]
+    fn name_validation3() {
+        let result = Name::try_new("Cannot contain spaces");
+        assert!(result.is_none())
     }
 }

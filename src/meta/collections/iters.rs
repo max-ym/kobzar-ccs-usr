@@ -37,7 +37,7 @@ pub struct ChannelIterator {
 pub struct PathNodeIterator {
 
     /// Last node of the path.
-    last: Rc<Path>,
+    last: Option<Rc<Path>>,
 }
 
 impl Iterator for ObjectIterator {
@@ -113,7 +113,7 @@ impl PathNodeIterator {
 
     pub fn new(node: Rc<Path>) -> Self {
         PathNodeIterator {
-            last: node,
+            last: Some(node),
         }
     }
 }
@@ -127,8 +127,10 @@ impl Iterator for PathNodeIterator {
         let rc = self.last.clone();
 
         // Move to previous node.
-        self.last = self.last.parent().clone();
+        if let Some(ref v) = self.last.clone() {
+            self.last = self.last.clone().unwrap().parent().clone();
+        }
 
-        Some(rc)
+        rc
     }
 }

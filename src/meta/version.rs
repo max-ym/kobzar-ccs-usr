@@ -6,7 +6,7 @@ use std::cmp::Ordering;
 /// # Tuples
 /// Versions can be build from parts and turned into them when needed.
 /// ```
-/// # use kobzar_ccs_usr::ccs::handles::meta::Version;
+/// # use kobzar_ccs_usr::meta::Version;
 /// let parts = (1, 0, 0);
 /// let version = Version::from(parts);
 /// assert_eq!(Version::new(1, 0, 0), version);
@@ -20,7 +20,7 @@ use std::cmp::Ordering;
 /// are equal on compare.
 ///
 /// ```
-/// # use kobzar_ccs_usr::ccs::handles::meta::Version;
+/// # use kobzar_ccs_usr::meta::Version;
 /// let tuple = (1, 0, 0);
 ///
 /// // First option of creating Version from tuple.
