@@ -154,24 +154,31 @@ impl Ord for WeakName {
 
 impl Path {
 
-    /// Create node with name only. No parent nor children.
-    pub fn new(name: &str) -> Option<Rc<Path>> {
-        let name = Name::try_new(name);
-        if name.is_none() {
-            return None;
-        }
-        let name = name.unwrap();
-
+    /// Generate Rc for new path node and automatically get it's self
+    /// reference.
+    fn path_rc_selfref(name: Name, parent: Option<Rc<Path>>)
+            -> Rc<Self> {
         let mut path = Path {
             name,
-            parent: None,
+            parent,
             selfref: Weak::new(),
             children: Default::default(),
         };
 
-        let rc = Rc::new(path);
-        path.selfref = Rc::downgrade(&rc);
-        Some(rc)
+        let mut rc = Rc::new(path);
+
+        Rc::get_mut(&mut rc).unwrap().selfref = Rc::downgrade(&rc);
+        rc
+    }
+
+    /// Create node with name only. No parent nor children.
+    pub fn new(name: &str) -> Option<Rc<Path>> {
+        let name = Name::try_new(name);
+        if let Some(v) = name {
+            Some(Self::path_rc_selfref(v, None))
+        } else {
+            None
+        }
     }
 
     /// Try creating new Path with given name. This node is treated
@@ -179,35 +186,23 @@ impl Path {
     /// it is invalid None will be returned. Otherwise, the path is
     /// returned and node is registered as child in current one.
     pub fn try_new(&mut self, name: &str) -> Option<Rc<Path>> {
-        // Validate the name.
-        let name = Name::try_new(name);
-        if name.is_none() {
+        // Create new path without this parent reference.
+        let path = Self::new(name);
+        if path.is_none() {
             // Name is invalid.
             return None;
         }
-        let name = name.unwrap();
+        let mut path = path.unwrap();
 
-        let path = Path {
-            name: name,
-            parent: self.selfref.upgrade(),
+        // Set this parent.
+        Rc::get_mut(&mut path).unwrap().parent
+                = Some(self.selfref.upgrade().unwrap());
 
-            // Currently nothing to assign. Will have
-            // valid value soon.
-            selfref: Weak::new(),
+        // Add new path to current node children.
+        let weakname = unsafe { WeakName::from(&path.as_ref().name) };
+        self.children.insert(weakname, path.clone());
 
-            children: Default::default(),
-        };
-
-        // Wrap new path node into Rc.
-        let rc = Rc::new(path);
-
-        // Save this node as current node's child.
-        self.children.insert(rc.name.weak(), rc.clone());
-
-        // Tell new node it's reference.
-        self.selfref = Rc::downgrade(&rc);
-
-        Some(rc)
+        Some(path)
     }
 
     /// This node name.
