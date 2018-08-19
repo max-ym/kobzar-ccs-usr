@@ -33,3 +33,7 @@ pub use self::thread::*;
 
 mod interface;
 pub use self::interface::*;
+
+/// Services grouped by visibility.
+mod service_group;
+pub use self::service_group::*;
