@@ -8,7 +8,7 @@ macro_rules! unwrap {
     }
 }
 
-/// Channel policy that defines the operations handles can apply.
+/// Channel policy that defines the allowed operations over channel.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Policy {
 
@@ -28,6 +28,50 @@ pub struct Policy {
 }
 
 /// Struct that simplifies building the policy.
+///
+/// First you need to create new policy builder. Then you need to assign
+/// each of the fields by calling same name methods. When you finished
+/// setting the values you can call [build](#method.build) and acquire
+/// ready to use policy.
+///
+/// # Example
+/// ```
+/// # use kobzar_ccs_usr::meta::PolicyBuilder;
+/// let mut builder = PolicyBuilder::new();
+///
+/// builder.invitation_from_not_member(true);
+/// builder.origin_can_leave(true);
+/// builder.join_by_handle(false);
+/// builder.no_multiple_connectons(false);
+///
+/// let result = builder.build();
+///
+/// assert!(result.is_ok());
+/// ```
+///
+/// When there are still unassigned fields builder will fail to
+/// build the policy and instead it will return Err result and
+/// pass itself as Err field.
+/// ```
+/// # use kobzar_ccs_usr::meta::PolicyBuilder;
+/// let mut builder = PolicyBuilder::new();
+///
+/// builder.invitation_from_not_member(true);
+/// builder.origin_can_leave(true);
+/// // Some fields are not set.
+/// let result = builder.build();
+///
+/// assert!(result.is_err());
+///
+/// // Still can use builder to assign missing values.
+/// let mut builder = result.unwrap_err();
+/// builder.join_by_handle(false);
+/// builder.no_multiple_connectons(false);
+///
+/// // Now it works.
+/// let result = builder.build();
+/// assert!(result.is_ok());
+/// ```
 #[derive(Clone, Copy, Default, Debug)]
 pub struct PolicyBuilder {
     invitation_from_not_member: Option<bool>,
@@ -53,6 +97,10 @@ impl PolicyBuilder {
 
     pub fn join_by_handle(&mut self, val: bool) {
         self.join_by_handle = Some(val);
+    }
+
+    pub fn no_multiple_connectons(&mut self, val: bool) {
+        self.no_multiple_connectons = Some(val);
     }
 
     /// Try building a Policy instance. If any of the fields
