@@ -3,14 +3,14 @@ use std::collections::BTreeSet;
 
 pub type ChannelSet = BTreeSet<Channel>;
 
-pub type ChannelArchSet<C: ChannelArchitecture> = BTreeSet<C>;
+pub struct ChannelArchSet<C: ChannelArchitecture>(BTreeSet<C>);
 
 pub type ServiceSet = BTreeSet<Service>;
 
-pub type ServiceArchSet<S: ServiceArchitecture> = BTreeSet<S>;
+pub struct ServiceArchSet<S: ServiceArchitecture>(BTreeSet<S>);
 
 pub type ObjectSet = BTreeSet<Object>;
 
-pub type ObjectArchSet<O: ObjectArchitecture> = BTreeSet<O>;
+pub struct ObjectArchSet<O: ObjectArchitecture>(BTreeSet<O>);
 
 pub type InterfaceSet = BTreeSet<Interface>;
