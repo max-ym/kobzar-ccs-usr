@@ -25,3 +25,19 @@ impl<T> Default for ServiceArchSet<T>
         ServiceArchSet(BTreeSet::new())
     }
 }
+
+impl<T> Default for ChannelArchSet<T>
+        where T: ChannelArchitecture {
+
+    fn default() -> Self {
+        ChannelArchSet(BTreeSet::new())
+    }
+}
+
+impl<T> Default for ObjectArchSet<T>
+        where T: ObjectArchitecture {
+
+    fn default() -> Self {
+        ObjectArchSet(BTreeSet::new())
+    }
+}
