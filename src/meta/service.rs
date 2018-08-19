@@ -29,7 +29,7 @@ pub trait ServiceEntry {
 }
 
 /// Architecture-dependent Service part.
-pub trait ServiceArchitecture {
+pub trait ServiceArchitecture: Ord {
 
     type SE: ServiceEntry;
 

@@ -11,3 +11,15 @@ pub struct ServiceGroup<S: ServiceArchitecture> {
 
     pub internal: ServiceArchSet<S>,
 }
+
+impl<T> Default for ServiceGroup<T>
+        where T: ServiceArchitecture {
+
+    fn default() -> ServiceGroup<T> {
+        ServiceGroup {
+            public: ServiceArchSet::default(),
+            private: ServiceArchSet::default(),
+            internal: ServiceArchSet::default(),
+        }
+    }
+}

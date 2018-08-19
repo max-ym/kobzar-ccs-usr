@@ -38,7 +38,7 @@ pub enum ChannelError {
 pub type ChannelResult<T> = Result<T, ChannelError>;
 
 /// Architecture-dependent part of Channel.
-pub trait ChannelArchitecture {
+pub trait ChannelArchitecture: Ord {
 
     type S: ServiceArchitecture;
 

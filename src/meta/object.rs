@@ -18,7 +18,7 @@ pub struct Object {
 }
 
 /// Architecture-dependent object implementation.
-pub trait ObjectArchitecture {
+pub trait ObjectArchitecture: Ord {
 
     /// Service architecture part.
     type S: ServiceArchitecture;

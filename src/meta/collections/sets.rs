@@ -17,3 +17,11 @@ pub type ObjectSet = BTreeSet<Object>;
 pub struct ObjectArchSet<O: ObjectArchitecture>(BTreeSet<O>);
 
 pub type InterfaceSet = BTreeSet<Interface>;
+
+impl<T> Default for ServiceArchSet<T>
+        where T: ServiceArchitecture {
+
+    fn default() -> Self {
+        ServiceArchSet(BTreeSet::new())
+    }
+}
