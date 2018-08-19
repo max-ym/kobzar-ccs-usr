@@ -32,12 +32,12 @@
 //! 9. [Master](../master/trait.Master.html).
 //!    Main controller that controls all CCS environment.
 
-use super::meta::{Interface, InterfaceSet, Object};
+use super::meta::*;
 
 use std::rc::Rc;
 
 pub struct MyServiceEntry {
-    start: Fn(MyChannel),
+    start: fn(MyChannel),
 }
 
 pub struct MyService {
@@ -55,6 +55,33 @@ pub struct MyObject {
     object: Object,
 }
 
+pub struct MyChannel {
+
+    /// Arch independent channel part.
+    chan: Channel,
+
+    // TODO
+}
+
+pub struct MyMemory {
+    // TODO
+}
+
+pub struct MyThread {
+
+    /// Architecture independent part.
+    thread: Thread,
+
+    memory: MyMemory,
+
+    // TODO
+}
+
+pub struct MyImplementerSource {
+
+    // TODO
+}
+
 /// The implementer of Interface source. When application begins,
 /// we add the list of all interfaces we will use so that master could
 /// find all requested sources when they get needed.
@@ -62,6 +89,10 @@ pub struct MyInterfaceSource {
 
     /// The set of application interfaces.
     ints: InterfaceSet,
+}
+
+pub struct Master {
+
 }
 
 impl MyInterfaceSource {
