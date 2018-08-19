@@ -179,9 +179,6 @@ impl Path {
     /// as path's parent. The passed name is validated and in case
     /// it is invalid None will be returned. Otherwise, the path is
     /// returned and node is registered as child in current one.
-    /// The created node is root (no parent). If this node
-    /// isn't root, specify parent using
-    /// [try_new_with_parent](#method.try_new_with_parent).
     pub fn try_new(&mut self, name: &str) -> Option<Rc<Path>> {
         use std::str::FromStr;
 
