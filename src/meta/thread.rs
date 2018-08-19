@@ -1,4 +1,5 @@
 use super::*;
+use std::rc::Rc;
 
 /// Thread state.
 #[derive(Clone, Copy, Debug)]
@@ -44,7 +45,7 @@ pub struct Thread {
     id: usize,
 
     /// Origin service instance of which this thread is.
-    origin: Service,
+    origin: Rc<Service>,
 }
 
 impl Thread {

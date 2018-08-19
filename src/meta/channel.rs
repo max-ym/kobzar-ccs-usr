@@ -1,4 +1,5 @@
 use super::*;
+use std::rc::Rc;
 
 /// Channel that allows communication among services.
 #[derive(Clone)]
@@ -11,7 +12,7 @@ pub struct Channel {
     /// could give up this channel, it still is identified as that which
     /// has origin from that service. The ID of the channel is related
     /// to the local network of the object of origin service.
-    origin: Service,
+    origin: Rc<Service>,
 }
 
 /// Error which appears when using Channel.

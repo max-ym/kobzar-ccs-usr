@@ -7,7 +7,7 @@ use std::rc::Rc;
 pub struct Service {
 
     /// The object in which this service lives.
-    object: Object,
+    object: Rc<Object>,
 
     /// Path to this service. Should extend the path of origin object.
     /// This is a hard error not to extend the object path.
