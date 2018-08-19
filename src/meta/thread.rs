@@ -24,6 +24,8 @@ pub trait ThreadArchitecture {
 
     type MA: MemoryArchitecture;
 
+    type C: ChannelArchitecture;
+
     /// Architecture-independent part of Thread.
     fn unarch(&self) -> &Thread;
 
@@ -34,7 +36,7 @@ pub trait ThreadArchitecture {
     fn state(&self) -> ThreadState;
 
     /// Set of all connected channels.
-    fn connected_channels(&self) -> ChannelSet;
+    fn connected_channels(&self) -> ChannelArchSet<Self::C>;
 }
 
 /// Thread that is performing in the system.
