@@ -34,6 +34,27 @@
 
 use super::meta::{Interface, InterfaceSet, Object};
 
+use std::rc::Rc;
+
+pub struct MyServiceEntry {
+    start: Fn(MyChannel),
+}
+
+pub struct MyService {
+
+    /// The entry point.
+    entry: MyServiceEntry,
+
+    /// Service handle to return when requested.
+    serv: Rc<MyService>,
+}
+
+pub struct MyObject {
+
+    /// Arch independent part.
+    object: Object,
+}
+
 /// The implementer of Interface source. When application begins,
 /// we add the list of all interfaces we will use so that master could
 /// find all requested sources when they get needed.
@@ -49,10 +70,4 @@ impl MyInterfaceSource {
     pub fn append(&mut self, i: Interface) {
         self.ints.insert(i);
     }
-}
-
-pub struct MyObject {
-
-    /// Arch independent part.
-    object: Object,
 }
