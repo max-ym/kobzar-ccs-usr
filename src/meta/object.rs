@@ -20,6 +20,9 @@ pub struct Object {
 /// Architecture-dependent object implementation.
 pub trait ObjectArchitecture {
 
+    /// Service architecture part.
+    type S: ServiceArchitecture;
+
     /// Service iterator over all accessible for this thread local services.
     fn service_iter(&self) -> ServiceIterator;
 
@@ -27,10 +30,11 @@ pub trait ObjectArchitecture {
     fn object_iter(&self) -> ObjectIterator;
 
     /// Set of services accessible for current thread.
-    fn services(&self) -> ServiceSet;
+    fn services(&self) -> &ServiceArchSet<Self::S>;
 
     /// Set of objects accessible for current thread.
-    fn objects(&self) -> ObjectSet;
+    fn objects(&self) -> &ObjectArchSet<Self>
+            where Self: Sized;
 }
 
 impl Object {

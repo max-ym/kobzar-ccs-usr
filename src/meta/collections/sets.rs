@@ -5,8 +5,10 @@ pub type ChannelSet = BTreeSet<Channel>;
 
 pub type ServiceSet = BTreeSet<Service>;
 
+pub type ServiceArchSet<S: ServiceArchitecture> = BTreeSet<S>;
+
 pub type ObjectSet = BTreeSet<Object>;
 
-pub type InterfaceSet = BTreeSet<Interface>;
+pub type ObjectArchSet<O: ObjectArchitecture> = BTreeSet<O>;
 
-pub type ObjectArchSet<T: ObjectArchitecture> = BTreeSet<T>;
+pub type InterfaceSet = BTreeSet<Interface>;

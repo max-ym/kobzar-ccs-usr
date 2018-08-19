@@ -8,7 +8,7 @@
 //! This module can be used as tutorial for implementing your own CCS
 //! master.
 
-use super::meta::{Interface, InterfaceSet};
+use super::meta::{Interface, InterfaceSet, Object};
 
 /// The implementer of Interface source. When application begins,
 /// we add the list of all interfaces we will use so that master could
@@ -25,4 +25,10 @@ impl MyInterfaceSource {
     pub fn append(&mut self, i: Interface) {
         self.ints.insert(i);
     }
+}
+
+pub struct MyObject {
+
+    /// Arch independent part.
+    object: Object,
 }
