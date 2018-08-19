@@ -33,6 +33,9 @@ pub trait ServiceArchitecture {
 
     type SE: ServiceEntry;
 
+    /// Object type that is used in the system.
+    type O: ObjectArchitecture;
+
     /// The handle for Service covered by this wrap.
     fn handle(&self) -> &Service;
 
