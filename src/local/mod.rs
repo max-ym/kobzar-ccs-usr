@@ -5,7 +5,7 @@
 //! this purpose. Also, it can be used as a tutorial for implementing your
 //! own CCS architecture.
 //!
-//! The recomended order of trait implementation by is:
+//! The recomended order of trait implementation is:
 //! 1. [Service entry](../meta/trait.ServiceEntry.html).
 //!    Service trait wants to know how to start a service
 //!    when it gets called.
