@@ -15,9 +15,23 @@ pub use self::implementer_source::*;
 /// of CCS.
 pub trait Master {
 
+    /// Channel type that is used in this master.
+    type Chan: meta::ChannelArchitecture;
+
+    /// Interface source type.
     type IntSrc: InterfaceSource;
 
+    /// Interface implementer source type.
     type ImpSrc: ImplementerSource;
+
+    /// Object type of this master.
+    type Obj: meta::ObjectArchitecture;
+
+    /// Service type of this master.
+    type Srv: meta::ServiceArchitecture;
+
+    /// The type of thread.
+    type Thr: meta::ThreadArchitecture;
 
     /// Add interface source to this master. If it is already added
     /// then nothing is done. The reference to interface source
