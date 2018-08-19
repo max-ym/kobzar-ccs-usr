@@ -2,7 +2,6 @@ use super::PathNodeIterator;
 use std::collections::BTreeMap;
 use std::cmp::Ordering;
 use std::rc::{Rc, Weak};
-use std::borrow::Borrow;
 
 /// The name of the path node.
 /// It stores only the valid name of the node. Before assigning
@@ -87,7 +86,7 @@ impl Name {
     }
 
     pub fn weak(&self) -> WeakName {
-        WeakName(self as *const _)
+        unsafe { WeakName::from(self) }
     }
 }
 
@@ -128,7 +127,7 @@ impl PartialEq for WeakName {
 
     fn eq(&self, other: &WeakName) -> bool {
         let s0: &str = self.as_ref();
-        let s1: &str = self.as_ref();
+        let s1: &str = other.as_ref();
 
         s0 == s1
     }
@@ -147,7 +146,7 @@ impl Ord for WeakName {
 
     fn cmp(&self, other: &WeakName) -> Ordering {
         let s0: &str = self.as_ref();
-        let s1: &str = self.as_ref();
+        let s1: &str = other.as_ref();
 
         s0.cmp(s1)
     }
@@ -180,8 +179,6 @@ impl Path {
     /// it is invalid None will be returned. Otherwise, the path is
     /// returned and node is registered as child in current one.
     pub fn try_new(&mut self, name: &str) -> Option<Rc<Path>> {
-        use std::str::FromStr;
-
         // Validate the name.
         let name = Name::try_new(name);
         if name.is_none() {

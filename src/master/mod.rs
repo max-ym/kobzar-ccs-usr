@@ -2,7 +2,6 @@
 
 use std::rc::Rc;
 
-use super::*;
 use super::meta;
 
 mod interface_source;

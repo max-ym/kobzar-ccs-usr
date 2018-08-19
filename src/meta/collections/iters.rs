@@ -128,7 +128,7 @@ impl Iterator for PathNodeIterator {
 
         // Move to previous node.
         if let Some(ref v) = self.last.clone() {
-            self.last = self.last.clone().unwrap().parent().clone();
+            self.last = v.parent().clone();
         }
 
         rc
