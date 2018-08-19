@@ -40,6 +40,8 @@ pub type ChannelResult<T> = Result<T, ChannelError>;
 /// Architecture-dependent part of Channel.
 pub trait ChannelArchitecture {
 
+    type S: ServiceArchitecture;
+
     /// Leave this channel. Service which called this fn leaves the channel
     /// but still has a handle to it and can retrieve information
     /// about the channel. If channel policy allows, Service can
@@ -47,7 +49,7 @@ pub trait ChannelArchitecture {
     fn leave(&self) -> ChannelResult<()>;
 
     /// Invite some service to join this channel.
-    fn invite(&self, service: &Service) -> ChannelResult<()>;
+    fn invite(&self, service: &Self::S) -> ChannelResult<()>;
 
     /// Try joining the channel. If this service already is a member then
     /// error occurs but service still will remain the member.
